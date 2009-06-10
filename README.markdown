@@ -70,6 +70,28 @@ A custom matcher is a custom assertion specifically tailored to your application
 
 You can invoke this matcher as follows: `expect(2).to(be_even)`.
 
+# Asynchronous Conditions
+
+Browser-based Javascript often involves some manner of asynchronous execution via `setTimeout` or `setInterval`.  In order to test this sort of implementation, an `it` may include a deferred block like so:
+
+    it("eventually modifies the value", function () {
+      var v = "now";
+      
+      setTimeout(function () {
+        v = "later";
+      }, 300);
+      
+      wait(function () {
+        expect(v).to(equal, "later");
+      }, 600);
+    });
+
+The `it` terminates immediately after the `wait` invocation &mdash; no code after `wait` will be executed.  You can nest `wait` calls if needed (though if you need to do this, you might want to rethink your test structure or your code). 
+
+(This feature is based on the similar feature in [YUI Test][yuitest]. However, Screw.Unit does not support waiting indefinitely and resuming from an arbitrary point.)
+
+[yuitest]: http://developer.yahoo.com/yui/yuitest/
+
 # The Anatomy of Test Infrastructure
 
 Typical test infrastructure spans multiple files:

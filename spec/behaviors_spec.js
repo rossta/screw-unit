@@ -165,6 +165,78 @@ Screw.Unit(function() {
           });
         });
       });
+
+      describe("A describe with [wait]", function () {
+        it("executes the [wait] after a delay", function () {
+          var v = "now";
+
+          setTimeout(function () {
+            v = "later";
+          }, 300);
+
+          wait(function () {
+            expect(v).to(equal, "later");
+          }, 600);
+        });
+
+        describe("and nested [wait]s", function () {
+          it("executes the [wait]s serially", function () {
+            var v = "now";
+
+            setTimeout(function () {
+              v = "later";
+            }, 600);
+
+            wait(function () {
+              expect(v).to(equal, "now");
+
+              wait(function () {
+                expect(v).to(equal, "later");
+              }, 500);
+            }, 300);
+          });
+        });
+
+        describe("with [before]", function () {
+          var befores = [];
+
+          before(function () {
+            befores.push("executed");
+          });
+
+          it("does not re-execute the before clause before a wait", function () {
+            wait(function () {
+              expect(befores).to(have_length, 1);
+            }, 100);
+          });
+        });
+
+        describe("with [after]", function () {
+          var runs = [];
+
+          before(function () {
+            runs.push("before");
+          });
+
+          after(function () {
+            runs.push("after");
+          })
+
+          it("does not execute [after] before the [wait]", function () {
+            wait(function () {
+              expect(runs).to(include, "before");
+              expect(runs).to_not(include, "after");
+            }, 100);
+          });
+
+          it("does execute the [after] after the [wait]", function () {
+            wait(function () {
+              expect(runs).to(have_length, 3); // 2 before, 1 after
+              expect(runs).to(include, "after");
+            }, 150);
+          });
+        });
+      });
     });
 
     describe("#selector", function() {
