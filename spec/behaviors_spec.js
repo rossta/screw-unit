@@ -178,6 +178,11 @@ Screw.Unit(function() {
             expect(v).to(equal, "later");
           }, 600);
         });
+        
+        it("does not execute any code after the [wait]", function () {
+          wait(function () { });
+          expect("this ran").to_not(be_true);
+        });
 
         describe("and nested [wait]s", function () {
           it("executes the [wait]s serially", function () {
@@ -234,6 +239,13 @@ Screw.Unit(function() {
             }, 150);
           });
         });
+      });
+      
+      describe("the wait exception", function () {
+        it("is self-describing", function () {
+          var w = new Screw.Wait(function () { }, 450);
+          expect(w.toString()).to(match, /Screw.Wait for 450ms and then execute function/);
+        })
       });
     });
 
