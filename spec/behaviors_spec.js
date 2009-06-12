@@ -224,15 +224,13 @@ Screw.Unit(function() {
 
           it("does not execute [after] before the [wait]", function () {
             wait(function () {
-              expect(runs).to(include, "before");
-              expect(runs).to_not(include, "after");
+              expect(runs).to(equal, ["before"]);
             }, 100);
           });
 
           it("does execute the [after] after the [wait]", function () {
             wait(function () {
-              expect(runs).to(have_length, 3); // 2 before, 1 after
-              expect(runs).to(include, "after");
+              expect(runs).to(equal, ["before", "after", "before"]);
             }, 150);
           });
         });
