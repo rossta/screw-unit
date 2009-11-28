@@ -233,5 +233,28 @@ Screw.Unit(function() {
       });
     });
 
+    describe('#include', function() {
+      var arr;
+      before(function() {
+        arr = [1,2,3];
+      });
+
+      it("matches a jQuery element against the expected selector", function() {
+        expect(arr).to(include, 1);
+        expect(arr).to_not(include, 4);
+      });
+
+      describe(".failure_message", function() {
+        it("prints 'expected [actual] to (not) match selector [expected]", function() {
+          var message = false;
+          try { expect(arr).to(include, 4) } catch(e) { message = e }
+          expect(message).to(equal, 'expected [ 1, 2, 3 ] to include 4');
+
+          try { expect(arr).to_not(include, 1) } catch(e) { message = e }
+          expect(message).to(equal, 'expected [ 1, 2, 3 ] not to include 1');
+        });
+      });
+    });
+
   });
 });
