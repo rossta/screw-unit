@@ -136,6 +136,31 @@ Screw.Unit(function() {
       });
     });
 
+    describe('#be_instance_of', function() {
+      var TestClass = function() {};
+      
+      it('matches an instance of given function', function () {
+        expect(new TestClass()).to(be_instance_of, TestClass);
+      });
+
+      it('does not match an instance unrelated function', function () {
+        expect(new RegExp()).to_not(be_instance_of, TestClass);
+      });
+
+      // describe(".failure_message", function() {
+      //   it('prints "expected [actual] to be an instance of [expected]', function() {
+      //     try { expect(new TestClass()).to(be_instance_of, RegExp); } catch(e) { message = e; }
+      //     expect(message).to(equal, '');
+      //   });
+      // 
+      //   it('prints "expected [actual] to not be an instance of [expected]', function() {
+      //     var message = null;
+      //     try { expect(new TestClass()).to_not(be_instance_of, TestClass); } catch(e) { message = e; }
+      //     expect(message).to(equal, 'expected [ new "TestClass" ] to be an instance of "TestClass"');
+      //   });
+      });
+    });
+
     describe('#be_empty', function() {
       it("matches Arrays with no elements", function() {
         expect([]).to(be_empty);

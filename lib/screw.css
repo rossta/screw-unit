@@ -3,7 +3,12 @@ html {
 	margin:0;
 	padding:0;
 	list-style-position:inside;
+	background-color: SeaGreen;
 }
+  body > div.describe {
+    margin:0 auto;
+    width:75%;
+  }
 
   li {
     list-style-type: none;
@@ -87,14 +92,13 @@ html {
           }
 
           .describes .describe .its .it.failed h2 {
-            background-color: #993300;
+            background-color: #EE5757;
             color: white !important;
           }
 
           .describes .describe .its .it.failed p {
             margin-left: 1em;
             color: #993300;
-          	background-color:#EE5757;
           }
           
           .describes .describe .its .it h2:hover {
